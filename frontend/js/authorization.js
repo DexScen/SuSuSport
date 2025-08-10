@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const authData = {
-            username: login,
+            login: login,
             password: password
         };
 
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitButton.disabled = true;
             submitButton.textContent = 'Отправка...';
 
-            const response = await fetch('http://localhost:8081', {
+            const response = await fetch('http://localhost:8081/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

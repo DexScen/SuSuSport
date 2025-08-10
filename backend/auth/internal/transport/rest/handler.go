@@ -44,7 +44,7 @@ func (h *Handler) InitRouter() *mux.Router {
 	links := r.PathPrefix("/users").Subrouter()
 	{
 		links.HandleFunc("/login", h.LogIn).Methods(http.MethodPost)
-		links.HandleFunc("", h.OptionsHandler).Methods(http.MethodOptions)
+		links.HandleFunc("/login", h.OptionsHandler).Methods(http.MethodOptions)
 	}
 	return r
 }

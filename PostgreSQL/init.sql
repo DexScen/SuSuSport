@@ -26,3 +26,13 @@ CREATE TABLE IF NOT EXISTS users (
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
+
+INSERT INTO sections (name, info, schedule) VALUES
+('Футбол', 'Тренер: Алексей Сидоров. Тренировки по футболу для всех возрастов', 'Пн, Ср, Пт 18:00-20:00'),
+('Плавание', 'Тренер: Мария Петровна. Обучение плаванию и тренировки по технике', 'Вт, Чт 17:00-19:00'),
+('Бокс', 'Тренер: Александр Самарцев. Тренировки по боксу для начинающих и профессионалов', 'Пн, Ср, Пт 19:00-21:00');
+
+INSERT INTO users (login, name, surname, patronymic, password, role, section_id, student_group, visits, paid, last_scanned, qr_token) VALUES
+('test', 'Иван', 'Иванов', 'Иванович', 'test', 'student', 1, 'КЭ-241', 5, TRUE, '2025-08-01 12:30:00', 'qr_001'),
+('petrova2', 'Мария', 'Петрова', 'Сергеевна', 'pass456', 'student', 2, 'ЕТ-341', 3, FALSE, '2025-08-02 10:15:00', 'qr_002'),
+('sidorov3', 'Алексей', 'Сидоров', NULL, 'pass789', 'teacher', 1, NULL, 0, TRUE, '2025-08-03 09:00:00', 'qr_003');
