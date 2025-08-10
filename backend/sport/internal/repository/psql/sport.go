@@ -5,72 +5,72 @@ import (
 	"database/sql"
 
 	//"github.com/DexScen/SuSuSport/backend/auth/internal/domain"
-	"github.com/DexScen/SuSuSport/backend/sport/internal/errors"
+	//"github.com/DexScen/SuSuSport/backend/sport/internal/errors"
+	"github.com/DexScen/SuSuSport/backend/sport/internal/domain"
 	_ "github.com/lib/pq"
 )
 
-type Users struct {
+type Sport struct {
 	db *sql.DB
 }
 
-func NewUsers(db *sql.DB) *Users {
-	return &Users{db: db}
+func NewSport(db *sql.DB) *Sport {
+	return &Sport{db: db}
 }
 
-func (u *Users) GetPassword(ctx context.Context, login string) (string, error) {
-	tr, err := u.db.Begin()
+func (s *Sport) GetSections(ctx context.Context) (*[]string, error) {
+	tr, err := s.db.Begin()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	statement, err := tr.Prepare("SELECT password FROM users WHERE login=$1")
+
+	statement, err := tr.PrepareContext(ctx, `
+		SELECT name
+		FROM sections
+		ORDER BY name ASC
+	`)
 	if err != nil {
 		tr.Rollback()
-		return "", err
+		return nil, err
 	}
 	defer statement.Close()
 
-	var password string
-	err = statement.QueryRow(login).Scan(&password)
+	rows, err := statement.QueryContext(ctx)
 	if err != nil {
 		tr.Rollback()
-		if err == sql.ErrNoRows {
-			return "", errors.ErrUserNotFound
+		return nil, err
+	}
+	defer rows.Close()
+
+	var sections []string
+	for rows.Next() {
+		var name string
+		if err := rows.Scan(&name); err != nil {
+			tr.Rollback()
+			return nil, err
 		}
-		return "", err
+		sections = append(sections, name)
+	}
+
+	if err := rows.Err(); err != nil {
+		tr.Rollback()
+		return nil, err
 	}
 
 	if err := tr.Commit(); err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return password, nil
+	return &sections, nil
 }
 
-func (u *Users) GetRole(ctx context.Context, login string) (string, error) {
-	tr, err := u.db.Begin()
+func (s *Sport) GetSectionInfoByName(ctx context.Context, name string) (*domain.Section, error){
+	query := "SELECT * FROM sections WHERE name = $1"
+	row := s.db.QueryRow(query, name)
+	section := domain.Section{}
+	err := row.Scan(&section.ID, &section.Name, &section.Info, &section.Schedule)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	statement, err := tr.Prepare("SELECT role FROM users WHERE login=$1")
-	if err != nil {
-		tr.Rollback()
-		return "", err
-	}
-	defer statement.Close()
-
-	var role string
-	err = statement.QueryRow(login).Scan(&role)
-	if err != nil {
-		tr.Rollback()
-		if err == sql.ErrNoRows {
-			return "", errors.ErrUserNotFound
-		}
-		return "", err
-	}
-
-	if err := tr.Commit(); err != nil {
-		return "", err
-	}
-
-	return role, nil
+	return  &section, nil
 }

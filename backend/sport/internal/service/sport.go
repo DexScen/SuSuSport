@@ -2,41 +2,31 @@ package service
 
 import (
 	"context"
-	"errors"
 
-	//"github.com/DexScen/SuSuSport/backend/auth/internal/domain"
-	e "github.com/DexScen/SuSuSport/backend/sport/internal/errors"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/DexScen/SuSuSport/backend/sport/internal/domain"
+	//"errors"
+	//e "github.com/DexScen/SuSuSport/backend/sport/internal/errors"
 )
 
-type UsersRepository interface {
-	GetPassword(ctx context.Context, login string) (string, error)
-	GetRole(ctx context.Context, login string) (string, error)
+type SportRepository interface {
+	GetSections (ctx context.Context) (*[]string, error)
+	GetSectionInfoByName(ctx context.Context, name string) (*domain.Section, error)
 }
 
-type Users struct {
-	repo UsersRepository
+type Sport struct {
+	repo SportRepository
 }
 
-func NewUsers(repo UsersRepository) *Users {
-	return &Users{
+func NewSport(repo SportRepository) *Sport {
+	return &Sport{
 		repo: repo,
 	}
 }
 
-func (u *Users) LogIn(ctx context.Context, login, password string) (string, error) {
-	passwordHash, err := u.repo.GetPassword(ctx, login)
+func (s *Sport) GetSections(ctx context.Context) (*[]string, error) {
+	return s.repo.GetSections(ctx)
+}
 
-	if err != nil {
-		if errors.Is(err, e.ErrUserNotFound) {
-			return "", e.ErrUserNotFound
-		}
-		return "", err
-	}
-
-	err = bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(password))
-	if err != nil {
-		return "", e.ErrWrongPassword
-	}
-	return u.repo.GetRole(ctx, login)
+func (s *Sport) GetSectionInfoByName(ctx context.Context, name string) (*domain.Section, error) {
+	return s.repo.GetSectionInfoByName(ctx, name)
 }

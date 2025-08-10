@@ -5,6 +5,7 @@ import (
 	"database/sql"
 
 	//"github.com/DexScen/SuSuSport/backend/auth/internal/domain"
+	"github.com/DexScen/SuSuSport/backend/auth/internal/domain"
 	"github.com/DexScen/SuSuSport/backend/auth/internal/errors"
 	_ "github.com/lib/pq"
 )
@@ -46,31 +47,54 @@ func (u *Users) GetPassword(ctx context.Context, login string) (string, error) {
 	return password, nil
 }
 
-func (u *Users) GetRole(ctx context.Context, login string) (string, error) {
+func (u *Users) GetUser(ctx context.Context, login string) (*domain.User, error) {
 	tr, err := u.db.Begin()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	statement, err := tr.Prepare("SELECT role FROM users WHERE login=$1")
+	defer func() {
+		if err != nil {
+			tr.Rollback()
+		}
+	}()
+
+	statement, err := tr.PrepareContext(ctx, `
+    	SELECT id, login, name, surname, COALESCE(patronymic, '') AS patronymic, role, COALESCE(section, '') AS section,
+           student_group, visits, paid, last_scanned, qr_token 
+    FROM users 
+    WHERE login=$1
+	`)
+
 	if err != nil {
-		tr.Rollback()
-		return "", err
+		return nil, err
 	}
 	defer statement.Close()
 
-	var role string
-	err = statement.QueryRow(login).Scan(&role)
+	var result domain.User
+	err = statement.QueryRow(login).Scan(
+		&result.ID,
+		&result.Login,
+		&result.Name,
+		&result.Surname,
+		&result.Patronymic,
+		&result.Role,
+		&result.Section,
+		&result.StudentGroup,
+		&result.Visits,
+		&result.Paid,
+		&result.Last_scanned,
+		&result.QrCode,
+	)
 	if err != nil {
-		tr.Rollback()
 		if err == sql.ErrNoRows {
-			return "", errors.ErrUserNotFound
+			return nil, errors.ErrUserNotFound
 		}
-		return "", err
+		return nil, err
 	}
 
 	if err := tr.Commit(); err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return role, nil
+	return &result, nil
 }

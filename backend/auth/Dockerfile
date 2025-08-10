@@ -15,4 +15,4 @@ COPY backend/auth/.env /app1/
 
 WORKDIR /app1
 
-CMD ["./auth"]
+CMD ["./sususport"]

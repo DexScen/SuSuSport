@@ -3,27 +3,28 @@ package rest
 import (
 	"context"
 	"encoding/json"
-	"errors"
+
+	//"errors"
 	"log"
 	"net/http"
 
+	//e "github.com/DexScen/SuSuSport/backend/sport/internal/errors"
 	"github.com/DexScen/SuSuSport/backend/sport/internal/domain"
-	e "github.com/DexScen/SuSuSport/backend/sport/internal/errors"
 	"github.com/gorilla/mux"
-	
 )
 
-type Users interface {
-	LogIn(ctx context.Context, login, password string) (string, error)
+type Sport interface {
+	GetSections(ctx context.Context) (*[]string, error)
+	GetSectionInfoByName(ctx context.Context, name string) (*domain.Section, error)
 }
 
 type Handler struct {
-	usersService Users
+	sportService Sport
 }
 
-func NewUsers(users Users) *Handler {
+func NewSport(sport Sport) *Handler {
 	return &Handler{
-		usersService: users,
+		sportService: sport,
 	}
 }
 
@@ -42,43 +43,49 @@ func (h *Handler) InitRouter() *mux.Router {
 	r := mux.NewRouter().StrictSlash(true)
 	r.Use(loggingMiddleware)
 
-	links := r.PathPrefix("/users").Subrouter()
+	links := r.PathPrefix("/sport").Subrouter()
 	{
-		links.HandleFunc("/login", h.LogIn).Methods(http.MethodPost)
+		links.HandleFunc("/sections", h.GetSections).Methods(http.MethodGet)
+		links.HandleFunc("/sections/{name}", h.GetSectionInfoByName).Methods(http.MethodGet)
 		links.HandleFunc("", h.OptionsHandler).Methods(http.MethodOptions)
 	}
 	return r
 }
 
-func (h *Handler) LogIn(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetSections(w http.ResponseWriter, r *http.Request) {
 	setHeaders(w)
-	var info domain.LoginInfo
-	var roleInfo domain.RoleInfo
 
-	if err := json.NewDecoder(r.Body).Decode(&info); err != nil {
+	names, err := h.sportService.GetSections(context.TODO())
+	if err != nil{
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Login error:", err)
+		log.Println("GetSections error:", err)
+	}
+
+	if jsonResp, err := json.Marshal(*names); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("GetSections error:", err)
+		return
+	} else {
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResp)
+	}
+}
+
+func (h *Handler) GetSectionInfoByName(w http.ResponseWriter, r *http.Request) {
+	setHeaders(w)
+	vars := mux.Vars(r)
+	name := vars["name"]
+	log.Println(name)
+	info, err := h.sportService.GetSectionInfoByName(context.TODO(), name)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("GetSectionInfoByName error:", err)
 		return
 	}
 
-	role, err := h.usersService.LogIn(context.TODO(), info.Login, info.Password)
-	if err != nil {
-		if errors.Is(err, e.ErrUserNotFound) {
-			role = "unauthorized by user"
-			log.Println("Login error2:", err)
-		} else if errors.Is(err, e.ErrWrongPassword) {
-			role = "unauthorized by password"
-			log.Println("Login error3:", err)
-		} else {
-			w.WriteHeader(http.StatusInternalServerError)
-			log.Println("Login error1:", err, e.ErrUserNotFound)
-			return
-		}
-	}
-	roleInfo.Role = role
-	if jsonResp, err := json.Marshal(roleInfo); err != nil {
+	if jsonResp, err := json.Marshal(*info); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Login error:", err)
+		log.Println("GetSectionInfoByName error:", err)
 		return
 	} else {
 		w.Header().Set("Content-Type", "application/json")

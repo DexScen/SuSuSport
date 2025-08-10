@@ -29,9 +29,9 @@ func main() {
 	}
 	defer db.Close()
 
-	usersRepo := psql.NewUsers(db)
-	usersService := service.NewUsers(usersRepo)
-	handler := rest.NewUsers(usersService)
+	sportRepo := psql.NewSport(db)
+	sportService := service.NewSport(sportRepo)
+	handler := rest.NewSport(sportService)
 
 	srv := &http.Server{
 		Addr:    ":8080",

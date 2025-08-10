@@ -5,13 +5,13 @@ import (
 	"errors"
 
 	//"github.com/DexScen/SuSuSport/backend/auth/internal/domain"
+	"github.com/DexScen/SuSuSport/backend/auth/internal/domain"
 	e "github.com/DexScen/SuSuSport/backend/auth/internal/errors"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type UsersRepository interface {
 	GetPassword(ctx context.Context, login string) (string, error)
-	GetRole(ctx context.Context, login string) (string, error)
+	GetUser(ctx context.Context, login string) (*domain.User, error)
 }
 
 type Users struct {
@@ -24,19 +24,22 @@ func NewUsers(repo UsersRepository) *Users {
 	}
 }
 
-func (u *Users) LogIn(ctx context.Context, login, password string) (string, error) {
-	passwordHash, err := u.repo.GetPassword(ctx, login)
+func (u *Users) LogIn(ctx context.Context, login, password string) (*domain.User, error) {
+	passwordFromDB, err := u.repo.GetPassword(ctx, login)
 
 	if err != nil {
 		if errors.Is(err, e.ErrUserNotFound) {
-			return "", e.ErrUserNotFound
+			return nil, e.ErrUserNotFound
 		}
-		return "", err
+		return nil, err
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(password))
-	if err != nil {
-		return "", e.ErrWrongPassword
+	if password == passwordFromDB{
+		user, err := u.repo.GetUser(ctx, login)
+		if err != nil{
+			return nil, err
+		}
+		return user, nil
 	}
-	return u.repo.GetRole(ctx, login)
+	return nil, e.ErrWrongPassword
 }

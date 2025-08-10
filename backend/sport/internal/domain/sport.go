@@ -6,3 +6,7 @@ type Section struct {
 	Info     string `json:"info"`
 	Schedule string `json:"schedule"`
 }
+
+// type Sections struct {
+// 	SectionArray []string `json:"sections"`
+// }

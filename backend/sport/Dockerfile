@@ -15,4 +15,4 @@ COPY backend/sport/.env /app/
 
 WORKDIR /app
 
-CMD ["./sport"]
+CMD ["./sususport"]

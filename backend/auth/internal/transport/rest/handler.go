@@ -10,11 +10,10 @@ import (
 	"github.com/DexScen/SuSuSport/backend/auth/internal/domain"
 	e "github.com/DexScen/SuSuSport/backend/auth/internal/errors"
 	"github.com/gorilla/mux"
-	
 )
 
 type Users interface {
-	LogIn(ctx context.Context, login, password string) (string, error)
+	LogIn(ctx context.Context, login, password string) (*domain.User, error)
 }
 
 type Handler struct {
@@ -53,21 +52,20 @@ func (h *Handler) InitRouter() *mux.Router {
 func (h *Handler) LogIn(w http.ResponseWriter, r *http.Request) {
 	setHeaders(w)
 	var info domain.LoginInfo
-	var roleInfo domain.RoleInfo
-
+	result := &domain.User{}
 	if err := json.NewDecoder(r.Body).Decode(&info); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Login error:", err)
 		return
 	}
-
-	role, err := h.usersService.LogIn(context.TODO(), info.Login, info.Password)
+	var err error
+	result, err = h.usersService.LogIn(context.TODO(), info.Login, info.Password)
 	if err != nil {
 		if errors.Is(err, e.ErrUserNotFound) {
-			role = "unauthorized by user"
+			result = &domain.User{Role: "unauthorized by user"}
 			log.Println("Login error2:", err)
 		} else if errors.Is(err, e.ErrWrongPassword) {
-			role = "unauthorized by password"
+			result = &domain.User{Role: "unauthorized by password"}
 			log.Println("Login error3:", err)
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -75,8 +73,8 @@ func (h *Handler) LogIn(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	roleInfo.Role = role
-	if jsonResp, err := json.Marshal(roleInfo); err != nil {
+
+	if jsonResp, err := json.Marshal(*result); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Login error:", err)
 		return

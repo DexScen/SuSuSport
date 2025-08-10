@@ -19,5 +19,10 @@ CREATE TABLE IF NOT EXISTS users (
     visits INT DEFAULT 0,
     paid BOOLEAN DEFAULT FALSE,
     last_scanned TIMESTAMP,
-    qr_token TEXT UNIQUE
+    qr_token TEXT UNIQUE,
+    CONSTRAINT fk_users_section
+        FOREIGN KEY (section_id)
+        REFERENCES sections(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
 );
