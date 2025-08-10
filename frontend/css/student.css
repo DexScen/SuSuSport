@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(191.25deg, #FFFFFF 11.56%, rgba(29, 88, 161, 0.5) 92.65%);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* КНОПКА ВЫХОДА */
+.navigation {
+    margin-top: 6%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 4%;
+
+    .exit {
+        height: 33px;
+        width: 33px;
+    }
+}
+
+/* QR КОД */
+.qr-code-container {
+    margin-top: 11%;
+    display: flex;
+    justify-content: center;
+
+    .qr-code {
+        height: 283px;
+        width: 283px;
+    }
+}
+
+/* ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ */
+.student-info {
+    width: 374px;
+    height: 164px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+
+    h1 {
+        color: rgba(32, 32, 32, 1);
+        font-size: 40px;
+        font-weight: 400;
+        line-height: 35px;
+        letter-spacing: 0.2px;
+        text-align: center;
+    }
+}
+
+/* ИНФОРМАЦИЯ О СЕКЦИИ */
+.stats-section {
+    color: rgba(32, 32, 32, 1);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 35px;
+    letter-spacing: 0.2px;
+    text-align: left;
+
+    width: 94%;
+    height: 55px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 3%;
+    gap: 15px;
+    margin-bottom: 16%;
+    min-height: fit-content;
+}
+
+/* КНОПКИ */
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    .sign-button,
+    .info-button {
+        width: 90%;
+        height: 53px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+        text-align: center; 
+        padding: 0 10px;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0.2px;
+        text-align: left;
+    }
+
+    .info-button {
+        border-radius: 12px;
+        border: none;
+        background: rgba(0, 67, 148, 0.75);
+        color: rgb(255, 255, 255);
+    }
+}

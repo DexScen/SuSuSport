@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Преподаватель</title>
+    <link rel="stylesheet" href="css/teacher.css">
+</head>
+<body>
+    <section class="navigation">
+        <img class="exit" src="assets/exit.svg" alt="Выход">
+    </section>
+
+    <section class="teacher-info">
+        <h1>Фамилия Имя Отчество</h1>
+    </section>
+
+    <section class="buttons">
+        <button type="button" class="mark-button">Отметить студентов</button>
+        <button type="button" class="download-button">Выгрузить отчет</button>
+    </section>
+
+    <section class="check-payement">
+        <p>Подтверждение об оплате:</p>
+        <select class="students-selector">
+            <option value="" disabled selected>Выберите студента</option>
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+        </select>
+    </section>
+    <section class="mark-payement">
+        <p>Оплачено?</p>
+        <label class="toggle-switch">
+            <input type="checkbox" id="toggle">
+            <span class="slider"></span>
+        </label>
+    </section>
+</body>
+</html>

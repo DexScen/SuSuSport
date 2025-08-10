@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(191.25deg, #FFFFFF 11.56%, rgba(29, 88, 161, 0.5) 92.65%);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ЛОГОТИП */
+.logo {
+    margin-top: 9%;
+    display: flex;
+    justify-content: center;
+
+    .susu-logo {
+        height: 200px;
+        width: 200px;
+    }
+}
+
+/* ФОРМА АВТОРИЗАЦИИ */
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .login-dialog {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        max-width: 320px;
+        flex: 1 1 auto;
+        padding: 20px 24px 24px;
+        border-radius: 20px;
+        box-shadow: 0 6px 34px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-fields {
+        display: flex;
+        flex-flow: column nowrap;
+        gap: 20px;
+    }
+
+    .login-footer {
+        margin-block-start: 20px;
+        display: flex;
+        flex-flow: row wrap-reverse;
+        gap: 12px;
+
+        .button {
+            flex: 1 1 40%;
+        }
+    }
+}
+
+/* ПОЛЯ ЗАПОЛНЕНИЯ */
+.field-row {
+    display: flex;
+    justify-content: center;
+}
+
+.text-input {
+    padding-left: 16px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 60px;
+    min-height: unset;
+    min-width: unset;
+    flex: 1 1 auto;
+    border: thin solid transparent;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+
+    &::placeholder {
+        color: rgb(170, 170, 170);
+    }
+}
+
+/* КНОПКА ДЛЯ ВХОДА */
+.login-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .button-primary {
+        height: 54px;
+        width: 200px;
+        border-radius: 8px;
+        border: none;
+        background-color: rgba(0, 67, 148, 0.75);
+        color: rgb(255, 255, 255);
+    }
+}
+
+/* СТИЛИ ТЕКСТА СТРАНИЦЫ */
+.button-primary,
+.text-input,
+.info {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    vertical-align: middle;
+}
+
+/* СЕКЦИЯ С ИНФОРМАЦИЕЙ */
+.info {
+    box-sizing: border-box;
+    position: relative;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    margin:0 auto 3%;
+    color: white;
+    font-size: 20px;
+    padding: 10px 0;
+
+    .text-info {
+        margin: 0;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+}

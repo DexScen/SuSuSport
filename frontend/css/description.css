@@ -1,0 +1,70 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(191.25deg, #FFFFFF 11.56%, rgba(29, 88, 161, 0.5) 92.65%);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* НАВИГАЦИЯ */
+.navigation {
+    margin-top: 6%;
+    display: flex;
+    justify-content: space-between; 
+    padding: 0 4%; 
+    width: 92%; 
+}
+
+.navigation .back {
+    height: 33px;
+    width: 33px;
+}
+
+.navigation .exit {
+    height: 33px;
+    width: 33px;
+}
+
+/* ЗАГОЛОВОК */
+.title {
+    height: 82px;
+    width: 94%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(32, 32, 32, 1);
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 35px;
+    letter-spacing: 0.2px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+/* КНОПКА */
+.sign-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;    
+    width: 90%;            
+    height: 53px;        
+    margin: 0 auto;         
+    border: 2px solid rgba(0, 67, 148, 0.75);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.75);
+    color: rgba(0, 67, 148, 0.75);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    padding: 0 10px;       
+    text-align: center;     
+}
