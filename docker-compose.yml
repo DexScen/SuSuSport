@@ -1,0 +1,45 @@
+services:
+  backend-users:
+    build:
+      context: .
+      dockerfile: ./backend/users/Dockerfile
+    ports:
+      - "8081:8081"
+    env_file:
+      - ./backend/users/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - go-mod:/go/pkg/mod
+    networks:
+        - app-network
+
+  postgres:
+    build: ./PostgreSQL
+    container_name: my_postgres
+    restart: always
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty123
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+        - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  go-mod:
