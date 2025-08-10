@@ -83,31 +83,45 @@ body {
 }
 
 /* ОПЛАТА */
+/* Базовые стили для контейнера */
 .check-payement {
-    margin-top: 6%;
-    width: 94%;
-    height: 55px;
-    display: flex;
-    flex-direction: column;
-    padding: 0 3%;
-    gap: 15px;
-    min-height: fit-content;
+  position: relative; /* Важно для позиционирования */
+  margin-top: 6%;
+  width: 100%; /* Занимает всю ширину родителя */
+  padding: 0 10px; /* Безопасные отступы */
+  box-sizing: border-box; /* Учитываем padding в ширине */
+}
 
-  p {
-    color: rgba(32, 32, 32, 1);
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 35px;
-    letter-spacing: 0.2px;
-    text-align: left;
-  }
+/* Стили для выпадающего списка */
+.students-selector {
+  width: 300px;
+  max-width: 100%; /* Жёсткое ограничение по ширине */
+  height: 40px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 2px solid rgba(0, 67, 148, 0.75);
+  border-radius: 8px;
+  font-size: 16px; /* Уменьшенный шрифт для мобильных */
+  color: rgba(0, 67, 148, 0.75);
+  background-image: url('data:image/svg+xml;utf8,<svg fill="rgba(0,67,148,0.75)" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  
+}
 
+/* Для экранов уже 412px (Pixel 7) */
+@media (max-width: 412px) {
   .students-selector {
-    padding: 0 2%;
-    width: 96%;
-    height: 60px;
+      font-size: 14px; /* Ещё меньше шрифт */
+      padding: 0 10px; /* Уменьшенные отступы */
+      
   }
 }
+
 
 /* ПЕРЕКЛЮЧАТЕЛЬ */
 .mark-payement {
