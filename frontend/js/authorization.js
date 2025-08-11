@@ -37,7 +37,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const data = await response.json();
-            console.log('Успешная авторизация:', data);  
+            console.log('Успешная авторизация:', data);
+
+            switch(data.role.toLowerCase()) {
+                case 'teacher':
+                    window.location.href = 'teacher.html';
+                    localStorage.setItem('myData', JSON.stringify(data));
+                    break;
+                case 'student':
+                    window.location.href = 'student.html';
+                    localStorage.setItem('myData', JSON.stringify(data));
+                    break;
+                default:
+                    throw new Error('Неправильное имя пользователя или пароль');
+            }
         } catch (error) {
             console.error('Ошибка при авторизации:', error);
             alert('Ошибка при авторизации. Проверьте логин и пароль.');

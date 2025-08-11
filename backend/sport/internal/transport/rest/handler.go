@@ -47,7 +47,8 @@ func (h *Handler) InitRouter() *mux.Router {
 	{
 		links.HandleFunc("/sections", h.GetSections).Methods(http.MethodGet)
 		links.HandleFunc("/sections/{name}", h.GetSectionInfoByName).Methods(http.MethodGet)
-		links.HandleFunc("", h.OptionsHandler).Methods(http.MethodOptions)
+		links.HandleFunc("/sections", h.OptionsHandler).Methods(http.MethodOptions)
+		links.HandleFunc("/sections/{name}", h.OptionsHandler).Methods(http.MethodOptions)
 	}
 	return r
 }
@@ -56,7 +57,7 @@ func (h *Handler) GetSections(w http.ResponseWriter, r *http.Request) {
 	setHeaders(w)
 
 	names, err := h.sportService.GetSections(context.TODO())
-	if err != nil{
+	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("GetSections error:", err)
 	}
