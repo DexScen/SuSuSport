@@ -34,5 +34,5 @@ INSERT INTO sections (name, info, schedule) VALUES
 
 INSERT INTO users (login, name, surname, patronymic, password, role, section_id, student_group, visits, paid, last_scanned, qr_token) VALUES
 ('test', 'Иван', 'Иванов', 'Иванович', 'test', 'student', 1, 'КЭ-241', 5, TRUE, '2025-08-01 12:30:00', 'qr_001'),
-('petrova2', 'Мария', 'Петрова', 'Сергеевна', 'pass456', 'student', 2, 'ЕТ-341', 3, FALSE, '2025-08-02 10:15:00', 'qr_002'),
-('sidorov3', 'Алексей', 'Сидоров', NULL, 'pass789', 'teacher', 1, NULL, 0, TRUE, '2025-08-03 09:00:00', 'qr_003');
+('test1', 'Алексей', 'Сидоров', 'Сергеевна', 'test1', 'teacher', 1, 'ЕТ-341', 0, FALSE, '2025-08-02 10:15:00', 'qr_002'),
+('sidorov3', 'Мария', 'Петровна', NULL, 'pass789', 'teacher', 1, NULL, 0, TRUE, '2025-08-03 09:00:00', 'qr_003');

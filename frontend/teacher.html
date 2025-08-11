@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <link rel="stylesheet" href="css/teacher.css">
+    <script src="js/teacher.js" defer></script>
 </head>
 <body>
     <section class="navigation">
@@ -15,8 +17,13 @@
         <h1>Фамилия Имя Отчество</h1>
     </section>
 
+    <section class="scanner-container">
+        <div id="qr-reader" width="600px"></div>
+    </section>
+
     <section class="buttons">
-        <button type="button" class="mark-button">Отметить студентов</button>
+        <button type="button" id="startScanner" class="mark-button">Начать сканирование</button>
+        <button type="button" id="stopScanner" class="stop-button">Завершить сканирование</button>
         <button type="button" class="download-button">Выгрузить отчет</button>
     </section>
 
