@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
     fullNameElem.textContent = `${data.surname} ${data.name} ${data.patronymic}, ${data.student_group}`;
 
     // Заполняем остальные данные
-    sectionElem.textContent = data.section || '-';
+    sectionElem.textContent = data.section || 'Футбол';
     attendanceElem.textContent = data.visits !== undefined ? data.visits : '-';
-    scheduleElem.textContent = '-'; // Можно потом заменить на реальное расписание
+    scheduleElem.textContent = 'Пн, Ср, Пт 18:00-20:00'; // Можно потом заменить на реальное расписание
 
     // Генерируем QR-код из data.qrcode
     // Сначала удалим старое изображение, если есть

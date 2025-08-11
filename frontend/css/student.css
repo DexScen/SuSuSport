@@ -30,11 +30,8 @@ body {
     margin-top: 11%;
     display: flex;
     justify-content: center;
-
-    .qr-code {
-        height: 283px;
-        width: 283px;
-    }
+    height: 300px;
+    width: 300px;
 }
 
 /* ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ */
